@@ -1,0 +1,65 @@
+
+# Bayesian Network for Disease Prediction
+# Pure Python - No external libraries required
+
+# Prior probability of Flu
+P_Flu = 0.10
+P_No_Flu = 0.90
+
+# Conditional probabilities
+P_Fever_Flu = 0.80
+P_Fever_No_Flu = 0.20
+
+P_Cough_Flu = 0.70
+P_Cough_No_Flu = 0.30
+
+# User input
+print("BAYESIAN NETWORK - DISEASE PREDICTION")
+print("--------------------------------------")
+
+fever = input("Does the person have fever? (yes/no): ").lower()
+cough = input("Does the person have cough? (yes/no): ").lower()
+
+# Calculate probability of evidence
+if fever == "yes":
+    f1 = P_Fever_Flu
+    f0 = P_Fever_No_Flu
+else:
+    f1 = 1 - P_Fever_Flu
+    f0 = 1 - P_Fever_No_Flu
+
+if cough == "yes":
+    c1 = P_Cough_Flu
+    c0 = P_Cough_No_Flu
+else:
+    c1 = 1 - P_Cough_Flu
+    c0 = 1 - P_Cough_No_Flu
+
+# Bayesian inference
+numerator = P_Flu * f1 * c1
+
+denominator = (
+    P_Flu * f1 * c1 +
+    P_No_Flu * f0 * c0
+)
+
+# Posterior probability
+P_Flu_Given_Symptoms = numerator / denominator
+P_No_Flu_Given_Symptoms = 1 - P_Flu_Given_Symptoms
+
+# Display results
+print("\n----- PREDICTION RESULT -----")
+
+print("Probability of Flu:",
+      round(P_Flu_Given_Symptoms * 100, 2), "%")
+
+print("Probability of No Flu:",
+      round(P_No_Flu_Given_Symptoms * 100, 2), "%")
+
+if P_Flu_Given_Symptoms > 0.5:
+    print("Prediction: Flu is more likely")
+else:
+    print("Prediction: Flu is less likely")
+
+print("-----------------------------")
+print("Educational demonstration only.")
